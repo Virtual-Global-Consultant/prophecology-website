@@ -1,0 +1,33 @@
+@import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: 'Trueno Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Trueno Regular'), url('fonts/TruenoLt.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Trueno Extra Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Trueno Extra Bold'), url('fonts/TruenoExBd.woff') format('woff');
+}
+
+  @font-face {
+    font-family: 'Trueno SemiBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Trueno SemiBold'), url('fonts/TruenoSBd.woff') format('woff');
+    }
+
+    @font-face {
+    font-family: 'Trueno Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Trueno Bold'), url('fonts/TruenoBd.woff') format('woff');
+    }
