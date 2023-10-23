@@ -62,6 +62,9 @@ body {
   min-height: 100vh;
   /* color: var(--color-text); */
   /* background: var(--color-background); */
+  background-image: url('../assets/img/background.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
   transition:
     color 0.5s,
     background-color 0.5s;

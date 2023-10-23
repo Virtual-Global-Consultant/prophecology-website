@@ -1,5 +1,5 @@
 <script setup>
-import DefaultPage from "../components/Pages/DefualtPageComponent.vue"
+import DefaultPage from "../components/Pages/DefaultPageComponent.vue"
 import LeftCard from '../components/Pages/LeftCardComponent.vue';
 import RightCard from '../components/Pages/RightCardComponent.vue';
 import InputLabelComponent from '../components/Input/InputLabelComponent.vue';

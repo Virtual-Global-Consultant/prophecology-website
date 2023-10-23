@@ -1,21 +1,25 @@
 <script setup>
-import BackIcon from "../Icons/BackIcon.vue";
-import HamburgerIcon from "../Icons/HamburgerIcon.vue";
-import CloseIcon from "../Icons/CloseIcon.vue";
-import Button from "../Button/ButtonComponent.vue";
-import ButtonWhite from "../Button/ButtonWhiteComponent.vue";
-import { ref } from "vue";
+import BackIcon from '../Icons/BackIcon.vue'
+import HamburgerIcon from '../Icons/HamburgerIcon.vue'
+import CloseIcon from '../Icons/CloseIcon.vue'
+import Button from '../Button/ButtonComponent.vue'
+import ButtonWhite from '../Button/ButtonWhiteComponent.vue'
+import { ref } from 'vue'
+import ProfileImage from '../../assets/img/user-img.png'
+import ArrowDownIcon from '../Icons/ArrowDownIcon.vue'
+import { useRoute } from 'vue-router'
 
-const toggle = ref(false);
-
+const toggle = ref(false)
+const route = useRoute()
 const toggleNav = () => {
-  toggle.value = !toggle.value;
-  console.log(toggle.value);
-};
+  toggle.value = !toggle.value
+}
 </script>
 
 <template>
-  <div class="shadow-nav flex items-center justify-around font-Trueno py-3 md:px-10">
+  <div
+    class="shadow-nav flex items-center fixed w-full bg-white justify-between m-auto px-10 font-Trueno py-3 md:px-10 md:justify-center md:space-x-32 xl:space-x-44"
+  >
     <!-- back icon and link -->
     <a
       href="https://www.prophecology.com"
@@ -26,7 +30,7 @@ const toggleNav = () => {
     </a>
     <!-- logo -->
     <img
-      class="w-4/12 md:w-2/12 xl:w-40 2xl:w-52"
+      class="w-4/12 md:w-2/12 xl:!w-32 2xl:w-52"
       src="@/assets/img/logo.svg"
       alt="Prophecology Logo"
     />
@@ -38,7 +42,7 @@ const toggleNav = () => {
       <!-- toggle menu -->
       <div
         v-if="toggle"
-        class="absolute px-8 py-5 bg-gold h-screen top-0 left-0 w-full space-x-5 border"
+        class="absolute px-8 py-5 bg-gold h-screen top-0 left-0 w-full space-x-5 border z-10"
       >
         <div class="flex flex-col justify-between h-full">
           <div class="flex justify-between">
@@ -59,25 +63,37 @@ const toggleNav = () => {
             <p>home</p>
             <p>home</p>
           </div>
-          <div class="flex justify-center space-x-10">
-            <Button
-              class="text-xs w-3/12 h-7 rounded-sm text-opacity-80 !border-slate-200 hover:!text-gold"
-              name="Register"
-              route="/"
-            />
-            <ButtonWhite
-              class="hover:bg-white hover:!text-gold text-xs w-3/12 h-7 text-slate-200 rounded-sm !border-slate-200"
-              name="Login"
-              route="/login"
-            />
+          <div v-if="!route.path.includes('dashboard')" class="flex justify-center space-x-10">
+            <Button name="Register" route="/" />
+            <ButtonWhite name="Login" route="/login" />
+          </div>
+          <div v-else class="flex items-center space-x-3">
+            <div class="w-9 h-9">
+              <img :src="ProfileImage" alt="" />
+            </div>
+            <p>Username</p>
+            <button>
+              <ArrowDownIcon />
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="hidden overflow-hidden md:flex w-fit space-x-3">
-      <Button name="Register" route="/" />
-      <ButtonWhite name="Login" route="/login" />
+    <div class="hidden items-center md:flex w-fit space-x-3">
+      <div v-if="!route.path.includes('dashboard')" class="flex space-x-4">
+        <Button name="Register" route="/" />
+        <ButtonWhite name="Login" route="/login" />
+      </div>
+      <!-- user profile menu toggle -->
+      <div v-else class="flex items-center space-x-3">
+        <div class="w-9 h-9">
+          <img :src="ProfileImage" alt="" />
+        </div>
+        <p class="md:text-xs lg:text-sm">Username</p>
+        <button>
+          <ArrowDownIcon class="md:w-5 lg:w-9" />
+        </button>
+      </div>
     </div>
-    <!-- user profile menu toggle -->
   </div>
 </template>

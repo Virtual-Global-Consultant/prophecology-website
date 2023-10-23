@@ -31,3 +31,20 @@
     font-weight: normal;
     src: local('Trueno Bold'), url('fonts/TruenoBd.woff') format('woff');
     }
+
+@layer {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(183, 148, 73, 0.58);
+    border-radius: 1rem;
+  }
+
+}
