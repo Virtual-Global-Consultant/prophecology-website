@@ -4,4 +4,5 @@ export default {
         verifyOtp: 'auth/verify-otp',
         user: 'auth/user',
         logout: 'auth/logout',
+        register: 'auth/register',
 }

@@ -27,7 +27,7 @@ const register = name === 'register'
     </div>
     <p v-if="register || path === '/login'" class="hidden md:block mt-16">
       {{ register ? 'Already a member?' : 'Not a member?' }}
-      <span @click="register ? push('/login') : push('/')"
+      <span @click="register ? push('/login') : push('/register')"
         class="font-bold border-b-2 border-black hover:text-gold hover:border-gold transition-all ease-in-out duration-300 cursor-pointer">{{
           register ? 'Login' : 'Create an Account' }}</span>
     </p>

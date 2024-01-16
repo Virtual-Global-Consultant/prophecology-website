@@ -21,6 +21,15 @@ export const useAuthStore = defineStore('auth', () => {
         errorMessage: '',
     })
 
+    const registerRT = reactive({
+        first_name: '',
+        last_name: '',
+        email: '',
+        cell_phone: '',
+        appState: appState().idle,
+        errorMessage: '',
+    })
+
     function setToken(value) {
         setLocalToken(value)
     }
@@ -59,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 
     function clear() {
-        clearLocal
+        clearLocal()
     }
 
     async function getOTP() {
@@ -83,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
         // infoLogger(token)
         try {
             const {data} = await Api.postData(ApiEndpoints.verifyOtp, {phone: loginRT.phone, code: verifyRT.code});
-            infoLogger(data.data.token)
+            // infoLogger(data.data.token)
             if(data.success){
                 verifyRT.appState = appState().idle
                 setToken(data.data.token)
@@ -97,6 +106,41 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    function logout() {
+        try {
+            Api.postData(ApiEndpoints.logout);
+        } catch (error) {
+            errorLogger(error.response.data)
+        }
+        clear()
+        window.location.replace('/login')
+    }
+
+    function register1() {
+        registerRT.appState = appState().loading
+        if(registerRT.first_name.length == 0 || registerRT.last_name.length == 0){
+            registerRT.errorMessage = 'Fields are required'
+            return
+        }
+        registerRT.errorMessage = ''
+        registerRT.appState = appState().idle
+        router.push(routerName().register2)
+    }
+
+    async function register() {
+        registerRT.appState = appState().loading
+        try {
+            const {data} = await Api.postData(ApiEndpoints.register, registerRT);
+            if(data.success){
+                registerRT.appState = appState().idle
+                window.location.replace('/login')
+            }
+        } catch (error) {
+            registerRT.appState = appState().error
+            registerRT.errorMessage = error.response.data.message ?? 'Failed'
+        }
+    }
+
     return {
         loginRT,
         verifyRT,
@@ -104,12 +148,16 @@ export const useAuthStore = defineStore('auth', () => {
         user,
         isAuthenticated,
         fullName,
+        registerRT,
         setToken,
         setUser,
         checkToken,
         clear,
         getOTP,
         verifyOTP,
+        logout,
+        register,
+        register1
     }
 
 })

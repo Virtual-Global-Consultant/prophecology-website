@@ -92,9 +92,7 @@ const toggle = (): String => {
           </RouterLink>
         </div>
       </div>
-      <RouterLink :to="{ name: 'login' }">
-        <DashboardCardComponent class="!mb-3" :icon="LogoutIcon" name="Logout" />
-      </RouterLink>
+      <DashboardCardComponent class="!mb-3" :icon="LogoutIcon" name="Logout" @click="authStore.logout"/>
     </div>
     <!-- Left Side End -->
 

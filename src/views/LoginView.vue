@@ -18,8 +18,6 @@ onMounted(() => {
 
 const authStore = useAuthStore()
 
-console.log(authStore.token)
-
 
 </script>
 <template>

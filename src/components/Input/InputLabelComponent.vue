@@ -7,7 +7,8 @@ const props = defineProps({
   for: String,
   lastname: String,
   type: String,
-  value: String
+  value: String,
+  modal: String
 })
 </script>
 
@@ -19,6 +20,6 @@ const props = defineProps({
         >(This field may be seen by everyone)</i
       >
     </label>
-    <InputComponent :type="props.type" :placeholder="props.placeholder" :value="props.value" />
+    <InputComponent :v-model="modal" :type="props.type" :placeholder="props.placeholder" :value="props.value" />
   </div>
 </template>
