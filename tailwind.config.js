@@ -37,5 +37,8 @@ export default {
       TruenoEB: ['Trueno Extra Bold', 'sans-serif']
     }
   },
-  plugins: [require('flowbite/plugin')]
+  plugins: [
+    // eslint-disable-next-line no-undef
+    require('flowbite/plugin')
+  ]
 }
