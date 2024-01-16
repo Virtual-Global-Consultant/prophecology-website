@@ -10,6 +10,10 @@ import DashboardRightComponent from '../Dashboard/DasboardRightComponent.vue'
 import { ref } from 'vue'
 import RightArrowIcon from '@/components/Icons/RightArrowIcon.vue'
 import LeftArrowIcon from '@/components/Icons/LeftArrowIcon.vue'
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore()
+
 
 const currentDayTime = ref('')
 const toggleSideBar = ref('hidden')
@@ -58,9 +62,9 @@ const toggle = (): String => {
     >
       <div class="space-y-5 mb-20">
         <div class="pl-8">
-          <img src="../../assets/img/user-img.png" alt="" class="w-14 h-14 rounded-full mb-3" />
+          <img  class="w-14 h-14 rounded-full mb-3" :src="authStore.user.avatar_url" alt="user profile image" />
           <p class="font-TruenoB">Good {{ currentDayTime }}</p>
-          <p>CeeJay Charith</p>
+          <p>{{ authStore.fullName }}</p>
         </div>
         <div>
           <RouterLink :to="{ name: 'summary' }" active-class="shadow-dashboard bg-opacity-100">

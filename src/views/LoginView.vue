@@ -8,14 +8,19 @@ import { onMounted, ref } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { useRoute, useRouter } from 'vue-router'
 import OTPModal from '@/components/Modals/OTPModal.vue'
+import {useAuthStore} from '@/stores/auth'
+import {appState} from '@/services/app'
 
-const router = useRouter()
-
-const otp = ref('')
 
 onMounted(() => {
   initFlowbite()
 })
+
+const authStore = useAuthStore()
+
+console.log(authStore.token)
+
+
 </script>
 <template>
   <div>
@@ -35,32 +40,33 @@ onMounted(() => {
                 >Enter Your Phone Number</label
               >
               <input
-                v-model="otp"
+                v-model="authStore.loginRT.phone"
                 type="tel"
                 id="success"
                 pattern="[0-9]*"
                 class="bg-dim-white border focus:ring-gold focus:border-gold placeholder-dim-gray text-sm rounded-lg block w-full xl:w-1/2 p-2.5"
-                placeholder="xxxx xxxx xxx"
+                placeholder="xxxxxxxxxxx"
                 required
               />
               <!--              <p v-if="otp" class="mt-2 text-sm text-green-600 dark:text-green-500">-->
               <!--                <span class="font-medium">Well done!</span> Some success message.-->
               <!--              </p>-->
-              <!--                <p v-else class="mt-2 text-sm text-red-600 dark:text-red-500">-->
-              <!--                  <span class="font-medium">Oh, snapp!</span> Some error message.-->
-              <!--                </p>-->
+                             <p v-if="authStore.loginRT.errorMessage" class="mt-2 text-sm text-red-600 dark:text-red-500">
+                               {{ authStore.loginRT.errorMessage }}
+                             </p>
             </div>
             <div class="flex justify-center md:justify-normal mt-9">
               <Button
-                :disabled="otp.length < 10"
+                :disabled="authStore.loginRT.phone.length < 10"
                 data-modal-target="authentication-modal"
                 data-modal-toggle="authentication-modal"
                 name="Get OTP"
+                :loading="authStore.loginRT.appState == appState().loading"
                 class="h-12 disabled:border-transparent disabled:bg-dim-gray disabled:cursor-not-allowed disabled:hover:text-white"
               />
             </div>
             <!--            </form>-->
-            <OTPModal :number="otp" />
+            <OTPModal/>
           </template>
         </RightCard>
       </template>

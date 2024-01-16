@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import Button from '@/components/Button/ButtonComponent.vue'
 import InputLabelComponent from '@/components/Input/InputLabelComponent.vue'
+import { useAuthStore } from '@/stores/auth';
 
-const props = defineProps({ number: String })
+// const props = defineProps({ number: String })
+
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -42,15 +45,15 @@ const props = defineProps({ number: String })
           <h3 class="mb-4 text-center text-xl font-medium text-gray-900 dark:text-white">
             Confirm Phone Number
           </h3>
-          <form class="space-y-6" action="/verify-otp">
+          <form class="space-y-6" @submit.prevent="authStore.getOTP">
             <div class="flex flex-col items-center justify-center gap-5">
               <input
                 type="tel"
                 readonly
                 class="read-only:cursor-not-allowed bg-dim-white border focus:ring-gold focus:border-gold placeholder-dim-gray text-sm rounded-lg block w-full xl:w-1/2 p-2.5"
-                :value="props.number"
+                v-model="authStore.loginRT.phone"
               />
-              <Button name="Proceed" class="h-12" />
+              <Button name="Proceed" class="h-12" data-modal-hide="authentication-modal"/>
             </div>
           </form>
         </div>

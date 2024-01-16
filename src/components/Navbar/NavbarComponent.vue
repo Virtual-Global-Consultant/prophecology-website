@@ -8,6 +8,9 @@ import { ref } from 'vue'
 import ProfileImage from '../../assets/img/user-img.png'
 import ArrowDownIcon from '../Icons/ArrowDownIcon.vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore()
 
 const toggle = ref(false)
 const route = useRoute()
@@ -63,15 +66,15 @@ const toggleNav = () => {
             <p>home</p>
             <p>home</p>
           </div>
-          <div v-if="!route.path.includes('dashboard')" class="flex justify-center space-x-10">
+          <div v-if="!authStore.isAuthenticated" class="flex justify-center space-x-10">
             <Button name="Register" route="/" />
             <ButtonWhite name="Login" route="/login" />
           </div>
           <div v-else class="flex items-center space-x-3">
             <div class="w-9 h-9">
-              <img :src="ProfileImage" alt="" />
+              <img :src="authStore.user.avatar_url" alt="" />
             </div>
-            <p>Username</p>
+            <p>{{ authStore.fullName }}</p>
             <button>
               <ArrowDownIcon />
             </button>
@@ -80,16 +83,16 @@ const toggleNav = () => {
       </div>
     </div>
     <div class="hidden items-center md:flex w-fit space-x-3">
-      <div v-if="!route.path.includes('dashboard')" class="flex space-x-4">
+      <div v-if="!authStore.isAuthenticated" class="flex space-x-4">
         <Button name="Register" route="/" />
         <ButtonWhite name="Login" route="/login" />
       </div>
       <!-- user profile menu toggle -->
       <div v-else class="flex items-center space-x-3">
         <div class="w-9 h-9">
-          <img :src="ProfileImage" alt="" />
+          <img :src="authStore.user.avatar_url" alt="user profile image" class="rounded-full" />
         </div>
-        <p class="md:text-xs lg:text-sm">Username</p>
+        <p class="md:text-xs lg:text-sm">{{ authStore.fullName }}</p>
         <button>
           <ArrowDownIcon class="md:w-5 lg:w-9" />
         </button>

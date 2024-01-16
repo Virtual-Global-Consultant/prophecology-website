@@ -4,8 +4,18 @@ import RightCard from '../components/Pages/RightCardComponent.vue'
 import Button from '../components/Button/ButtonComponent.vue'
 import DefaultPage from '../components/Pages/DefaultPageComponent.vue'
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth';
+import {appState} from '@/services/app'
+import { useRouter } from 'vue-router'
+import { routerName } from '@/router';
 
-const verifyOTP = ref('')
+const authStore = useAuthStore()
+const router = useRouter()
+
+if(authStore.loginRT.phone.length == 0){
+  router.replace(routerName().login)
+}
+
 </script>
 <template>
   <div>
@@ -19,11 +29,11 @@ const verifyOTP = ref('')
         />
         <RightCard class="md:!py-44">
           <template v-slot:content>
-            <form action="/dashboard" method="get">
+            <form @submit.prevent="authStore.verifyOTP">
               <div>
                 <label for="success" class="block mb-2 text-sm font-medium">Enter Code</label>
                 <input
-                  v-model="verifyOTP"
+                  v-model="authStore.verifyRT.code"
                   type="tel"
                   id="success"
                   pattern="[0-9]*"
@@ -34,10 +44,11 @@ const verifyOTP = ref('')
               </div>
               <div class="flex justify-center md:justify-normal mt-9">
                 <Button
-                  :disabled="verifyOTP.length < 5"
+                  :disabled="authStore.verifyRT.code.length < 5"
                   name="Verify"
                   class="h-12 disabled:border-transparent disabled:bg-dim-gray disabled:cursor-not-allowed disabled:hover:text-white"
                   type="submit"
+                  :loading="authStore.verifyRT.appState == appState().loading"
                 />
               </div>
             </form>
