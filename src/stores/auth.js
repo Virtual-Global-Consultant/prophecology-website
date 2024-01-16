@@ -68,6 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
             const {data} = await Api.postData(ApiEndpoints.generateOtp, loginRT);
             if(data.success){
                 loginRT.appState = appState().idle
+                loginRT.errorMessage = ''
                 router.push(routerName().verifyOtp)
             }
         } catch (error) {
