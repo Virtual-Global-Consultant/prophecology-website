@@ -5,4 +5,9 @@ export default {
         user: 'auth/user',
         logout: 'auth/logout',
         register: 'auth/register',
+
+        incompletePrograms: 'programs/incomplete',
+        upcomingPrograms: 'programs/upcoming',
+        pastPrograms: 'programs/past',
+        getProgram:(id) => 'programs/'+ id,
 }

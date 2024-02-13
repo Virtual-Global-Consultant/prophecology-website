@@ -4,6 +4,7 @@ import ProgramIcon from '../../assets/img/Dashboard/courses-ico.png'
 import ProfileIcon from '../../assets/img/Dashboard/settings.png'
 import NotificationIcon from '../../assets/img/Dashboard/notification.png'
 import IndicatorIcon from '../../assets/img/indicator.png'
+import CautuionIcon from '../../assets/img/cautuion.svg'
 import LogoutIcon from '../../assets/img/logout-icon.svg'
 import DashboardCardComponent from '../Dashboard/DashboardCardComponent.vue'
 import DashboardRightComponent from '../Dashboard/DasboardRightComponent.vue'
@@ -90,6 +91,14 @@ const toggle = (): String => {
               :indicator="IndicatorIcon"
             />
           </RouterLink>
+          <div
+            active-class="shadow-dashboard bg-opacity-100"
+          >
+            <DashboardCardComponent
+              :icon="CautuionIcon"
+              name="Support"
+            />
+        </div>
         </div>
       </div>
       <DashboardCardComponent class="!mb-3" :icon="LogoutIcon" name="Logout" @click="authStore.logout"/>

@@ -22,6 +22,8 @@ export const routerName = () => {
     resetPasswordMain: 'reset-password-main',
     resetPasswordSuccess: 'reset-password-success',
     program: 'program',
+    programm: 'programm',
+    getProgram: 'getProgram',
     intro: 'intro',
     itinerary: 'itinerary',
     first: 'first',
@@ -46,7 +48,7 @@ const router = createRouter({
       redirect: 'summary',
       component: () => import('../views/DashboardView.vue'),
       meta: {
-        auth:true
+        auth: true
       },
       children: [
         {
@@ -139,12 +141,27 @@ const router = createRouter({
       component: () => import('../views/ResetPasswordSuccessView.vue')
     },
     {
-      path: '/program/',
+      path: '/program/:id/',
       name: routerName().program,
-      redirect: 'program/intro',
+      component: () => import('../views/ProgramStepsView.vue'),
+      meta: {
+        auth: true
+      },
+      children: [
+        {
+          path: 'step/:stepId',
+          name: routerName().getProgram,
+          component: () => import('../views/ProgramStepView.vue')
+        },
+      ]
+    },
+    {
+      path: '/programm/',
+      name: routerName().programm,
+      redirect: 'programm/intro',
       component: () => import('../views/ProgramView.vue'),
       meta: {
-        auth:true
+        auth: true
       },
       children: [
         {
@@ -192,10 +209,18 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach(async (to, from, next) => {
   if (to.meta?.auth) {
     const authStore = useAuthStore()
     if (authStore.isAuthenticated) {
+      // if(to.name == routerName().settings){
+      //   await authStore.getUser()
+      // }
+      if (to.name == routerName().programs) {
+        // const programStore = useProgramStore()
+
+        // programStore.getUpcomingPrograms()
+      }
       next();
     } else {
       next({ name: routerName().login });

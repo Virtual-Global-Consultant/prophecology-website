@@ -1,7 +1,7 @@
 import { computed, reactive} from 'vue';
 import { defineStore } from 'pinia';
 import Api from '@/services/api';
-import { getLocalToken, getLocalUser, setLocalToken, setLocalUser, clearLocal, errorLogger, appState, infoLogger } from '@/services/app';
+import { getLocalToken, getLocalUser, setLocalToken, setLocalUser, clearLocal, errorLogger, appState } from '@/services/app';
 import ApiEndpoints from '@/services/api.endpoint';
 import { useRouter } from 'vue-router'
 import { routerName } from '@/router';
@@ -10,7 +10,8 @@ export const useAuthStore = defineStore('auth', () => {
     const router = useRouter()
 
     const loginRT = reactive({
-        phone: '',
+        phone: '19082272214',
+        // phone: '',
         appState: appState().idle,
         errorMessage: '',
     }) 
@@ -26,6 +27,17 @@ export const useAuthStore = defineStore('auth', () => {
         last_name: '',
         email: '',
         cell_phone: '',
+        appState: appState().idle,
+        errorMessage: '',
+    })
+
+    const userUpdateRT = reactive({
+        address: '',
+        city: '',
+        state: '',
+        zip_code: '',
+        date_of_birth: '',
+        cashapp_id: '',
         appState: appState().idle,
         errorMessage: '',
     })
@@ -141,6 +153,45 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    function setUserUserRT(value){
+        let u = value ?? user
+        userUpdateRT.address = u.address
+        userUpdateRT.state = u.state
+        userUpdateRT.city = u.city
+        userUpdateRT.zip_code = u.zip_code
+        userUpdateRT.date_of_birth = u.date_of_birth
+    }
+
+    async function updateUser() {
+        userUpdateRT.appState = appState().loading
+        try {
+            const {data} = await Api.postData(ApiEndpoints.user, userUpdateRT);
+            if(data.success){
+                setUser(data.data.user)
+                setUserUserRT(data.data.user)
+            }
+        } catch (error) {
+            userUpdateRT.appState = appState().error
+            userUpdateRT.errorMessage = error.response.data.message ?? 'Failed'
+        }
+        userUpdateRT.appState = appState().idle
+    }
+
+    async function getUser() {
+        // userUpdateRT.appState = appState().loading
+        try {
+            const {data} = await Api.getData(ApiEndpoints.user, userUpdateRT);
+            if(data.success){
+                setUser(data.data.user)
+                setUserUserRT(data.data.user)
+            }
+        } catch (error) {
+            // userUpdateRT.appState = appState().error
+            // userUpdateRT.errorMessage = error.response.data.message ?? 'Failed'
+        }
+        // userUpdateRT.appState = appState().idle
+    }
+
     return {
         loginRT,
         verifyRT,
@@ -149,6 +200,7 @@ export const useAuthStore = defineStore('auth', () => {
         isAuthenticated,
         fullName,
         registerRT,
+        userUpdateRT,
         setToken,
         setUser,
         checkToken,
@@ -157,7 +209,9 @@ export const useAuthStore = defineStore('auth', () => {
         verifyOTP,
         logout,
         register,
-        register1
+        register1,
+        updateUser,
+        getUser
     }
 
 })
