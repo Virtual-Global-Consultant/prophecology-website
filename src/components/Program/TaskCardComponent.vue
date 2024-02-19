@@ -8,12 +8,13 @@ const props = defineProps({
   title: String,
   info: String,
   programId: Number,
-  data: Object
+  data: Object,
+  active: Boolean
 })
 </script>
 <template> 
   <RouterLink v-if="data && programId" :to="{ name: routerName().getProgram, params: {stepId: data?.id, id:programId} }"
-    class="w-full bg-white shadow-nav p-2 space-x-4 md:p-4 rounded-md flex items-center justify-between hover:shadow-dashboard transition-all ease-in-out duration-400"
+    :class="['w-full shadow-nav p-2 space-x-4 md:p-4 rounded-md flex items-center justify-between hover:shadow-dashboard transition-all ease-in-out duration-400', active ? 'bg-white': 'bg-white/50' ]"
   >
     <div class="flex items-center space-x-3">
       <img v-if="props.statusIcon" :src="props.statusIcon" alt="status icon" />

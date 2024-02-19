@@ -8,40 +8,22 @@ import UncheckedIcon from '@/assets/img/checked-false.svg'
 import TaskCardComponent from '@/components/Program/TaskCardComponent.vue'
 import ArrowToggleLeft from '@/assets/img/arrow-toggle-left.svg'
 import ArrowToggleRight from '@/assets/img/arrow-toggle-right.svg'
-import Api from '@/services/api';
-import { errorLogger, appState, } from '@/services/app';
-import ApiEndpoints from '@/services/api.endpoint';
-import { ref } from 'vue';
+import { appState, } from '@/services/app';
+import { useProgramStore } from '@/stores';
 
-const route = useRoute()
+const programStore = useProgramStore()
 
-const programData = ref()
-const programAppState = ref(appState().loading)
-const programErrorMessage = ref('')
+programStore.getProgramData()
 
-console.log(route.params.id)
-
-Api.getData(ApiEndpoints.getProgram(route.params.id)).then(res => {
-  const data = res.data;
-  if (data.success) {
-    programData.value = data.data
-    programAppState.value = appState().loaded
-    programErrorMessage.value = ''
-  }
-}).catch(error => {
-  programAppState.value = appState().error
-  programErrorMessage.value = ''
-  errorLogger(error.response.data)
-});
 </script>
 <template>
   <div class="flex justify-center py-32 md:py-44 lg:!py-32 font-Trueno">
     <div class="px-5 md:p-0 md:w-9/12 xl:w-[1000px] space-y-10">
       <p class="tracking-wide capitalize">
         <RouterLink :to="{ name: 'summary' }">Dashboard</RouterLink> /
-        <span class="text-dim-gray">{{ programData?.title }}</span>
+        <span class="text-dim-gray">{{ programStore.programData?.title }}</span>
       </p>
-      <div v-if="programAppState == appState().loading"
+      <div v-if="programStore.programAppState == appState().loading"
         class=" flex justify-center items-center w-full bg-white p-4 lg:px-14 rounded-md space-x-5 h-full">
         <span>
           <svg aria-hidden="true" :class="['inline w-8 h-8 text-white/30 animate-spin fill-gold']" viewBox="0 0 100 101"
@@ -56,9 +38,9 @@ Api.getData(ApiEndpoints.getProgram(route.params.id)).then(res => {
 
         </span>
       </div>
-      <div v-if="programAppState == appState().loaded" class="space-y-4">
+      <div v-if="programStore.programAppState == appState().loaded" class="space-y-4">
         <div class="bg-white flex p-4 lg:px-14 rounded-md space-x-5 w-full justify-between">
-          <p class="font-bold lg:text-xl xl:w-80">{{ programData?.title }}</p>
+          <p class="font-bold lg:text-xl xl:w-80">{{ programStore.programData?.title }}</p>
           <div class="flex text-xs items-center justify-end space-x-3 w-1/2 lg:w-44">
             <img :src="LoadingIcon" alt="icon" class="w-4 lg:w-5" />
             <p class="lg:text-lg">37% Completed</p>
@@ -67,8 +49,8 @@ Api.getData(ApiEndpoints.getProgram(route.params.id)).then(res => {
         <div class="flex flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-5 tracking-wide">
           <!-- Left side -->
           <div class="w-full lg:w-6/12">
-            <TaskCardComponent class="mb-1.5" v-for="item in programData?.steps" v-bind:key="item.id" :data="item"
-              :programId="programData?.id" :status-icon="UncheckedIcon" :view-icon="ViewIcon" />
+            <TaskCardComponent class="mb-1.5" v-for="item in programStore.programData?.steps" v-bind:key="item.id" :data="item"
+              :programId="programStore.programData?.id" :status-icon="UncheckedIcon" :view-icon="ViewIcon" :active="programStore.currentProgramStepId == item.id" />
 
           </div>
           <!-- Left side end -->
