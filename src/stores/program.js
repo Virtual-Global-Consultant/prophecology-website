@@ -85,6 +85,22 @@ export const useProgramStore = defineStore('program', () => {
         return answers.value[currentProgramStepId.value]
     })
 
+    const previousStepData = computed(() => {
+        const i = programData.value?.steps.findIndex(e => e.id == currentProgramStepId.value)
+        if(i == 0){
+            return null
+        }
+        return programData.value?.steps[i-1]
+    })
+
+    const nextStepData = computed(() => {
+        const i = programData.value?.steps.findIndex(e => e.id == currentProgramStepId.value)
+        if(i == programData.value?.steps.length - 1){
+            return null
+        }
+        return programData.value?.steps[i+1]
+    })
+
     async function saveSubmitStepUpdate() {
         try {
             console.log(answers.value[currentProgramStepId.value])
@@ -105,6 +121,8 @@ export const useProgramStore = defineStore('program', () => {
         currentProgramID,
         currentProgramStepId,
         answers,
+        previousStepData,
+        nextStepData,
         setProgromSuccessData,
         setProgromErrorData,
         getProgramData,

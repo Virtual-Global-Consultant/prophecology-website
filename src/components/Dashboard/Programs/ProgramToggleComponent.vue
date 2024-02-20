@@ -18,7 +18,7 @@ const toggleShow = () => {
 </script>
 
 <template>
-  <div class="px-5 w-full">
+  <div class="w-full">
     <div class="bg-white bg-opacity-60 rounded-md my-2">
       <div class="bg-white flex justify-between items-center px-5 py-3 rounded-md">
         <button @click="toggleShow" class="flex justify-between items-center w-full">

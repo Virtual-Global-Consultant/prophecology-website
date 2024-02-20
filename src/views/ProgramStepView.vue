@@ -2,13 +2,9 @@
 import { appState, } from '@/services/app';
 import ArrowToggleLeft from '@/assets/img/arrow-toggle-left.svg'
 import ArrowToggleRight from '@/assets/img/arrow-toggle-right.svg'
-import ButtonWhiteComponent from '@/components/Button/ButtonWhiteComponent.vue'
 import { useProgramStore } from '@/stores/program';
-import TextInput from '@/components/Dashboard/Programs/Steps/Questions/TextInput.vue';
-import RadioInput from '@/components/Dashboard/Programs/Steps/Questions/RadioInput.vue';
-import CheckboxInput from '@/components/Dashboard/Programs/Steps/Questions/CheckboxInput.vue';
-import SelectInput from '@/components/Dashboard/Programs/Steps/Questions/SelectInput.vue';
 import QuestionContentComponent from '@/components/Dashboard/Programs/Steps/QuestionContentComponent.vue';
+import TaskCardComponent from '@/components/Program/TaskCardComponent.vue'
 
 const programStore = useProgramStore()
 
@@ -30,7 +26,7 @@ const programStore = useProgramStore()
   </div>
 
   <div class="w-full space-y-5" v-if="programStore.stepAppState == appState().loaded">
-    <div class="bg-dim-white rounded-md w-full">
+    <div class="bg-dim-white rounded-md w-full pb-5">
       <div class="bg-white p-5 rounded-md space-y-4 mb-6">
         <!-- <p
           class="text-black"
@@ -49,11 +45,11 @@ const programStore = useProgramStore()
 
         </div>
       </div>
-      <div class="px-5">
-        <QuestionContentComponent v-for="item in programStore.programData?.steps" v-bind:key="item.id" v-model="programStore.answers.value[item.id]" :stepId="item.id" :currentProgramStepId="programStore.currentProgramStepId"/>
+      <div>
+        <QuestionContentComponent v-for="item in programStore.programData?.steps" v-bind:key="item.id" v-model="programStore.answers.value[item.id]" :stepId="item.id" :currentProgramStepId="programStore.currentProgramStepId" :show="programStore.currentProgramStepId == item.id"/>
       </div>
 
-      <div class="px-10 mt-5 space-y-3">
+      <!-- <div class="px-10 mt-5 space-y-3">
         <p>Please complete the following by telling us about your accommodations*:</p>
         <label class="flex items-center text-sm">
           <input type="radio" class="mr-4" />
@@ -104,14 +100,15 @@ const programStore = useProgramStore()
             experience tailored just for you.
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Navigator   -->
-    <!-- <div class="flex items-center gap-5 flex-col md:flex-row">
-      <TaskCardComponent class="p-4" :status-icon="ArrowToggleLeft" title="Back" info="to Dashboard" />
-      <TaskCardComponent class="p-4" :view-icon="ArrowToggleRight" title="Next Step"
-        info="Book Your Air Travel, Ground Transportation and Hotel" />
-    </div> -->
+    <div class="flex items-center gap-5 flex-col md:flex-row">
+      <TaskCardComponent v-if="programStore.previousStepData" class="p-4" :status-icon="ArrowToggleLeft" :data="programStore.previousStepData"
+              :programId="programStore.programData?.id"/>
+      <TaskCardComponent v-if="programStore.nextStepData" class="p-4" :view-icon="ArrowToggleRight" :data="programStore.nextStepData"
+              :programId="programStore.programData?.id" />
+    </div>
   </div>
 </template>
